@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
 require('dotenv').config();
@@ -16,11 +15,6 @@ const app = express();
 connectDB();
 
 app.use(helmet());
-
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
-  credentials: true
-}));
 
 // Rate limiting
 app.use('/api', apiLimiter);
