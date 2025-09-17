@@ -10,17 +10,13 @@ const errorHandler = require('./middleware/errorHandler');
 const { requestLogger, errorRequestLogger } = require('./middleware/requestLogger');
 const { apiLimiter } = require('./middleware/rateLimiter');
 
-// Import routes
 const apiRoutes = require('./routes/index');
 const app = express();
 
-// Connect to MongoDB
 connectDB();
 
-// Security middleware
 app.use(helmet());
 
-// CORS middleware
 app.use(cors({
   origin: process.env.CORS_ORIGIN || '*',
   credentials: true
@@ -29,17 +25,13 @@ app.use(cors({
 // Rate limiting
 app.use('/api', apiLimiter);
 
-// Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Compression middleware
 app.use(compression());
 
-// Request logging middleware
 app.use(requestLogger);
 
-// Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
