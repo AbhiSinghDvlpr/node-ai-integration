@@ -16,7 +16,9 @@ steps:
         '--image', 'gcr.io/$PROJECT_ID/node-ai-integration',
         '--region', 'us-central1',
         '--platform', 'managed',
-        '--allow-unauthenticated'
+        '--allow-unauthenticated',
+        '--set-env-vars',
+        'NODE_ENV=$_NODE_ENV,PORT=$_PORT,MONGODB_URI=$MONGODB_URI,CORS_ORIGIN=$CORS_ORIGIN,OPENAI_API_KEY=$OPENAI_API_KEY,GEMINI_API_KEY=$GEMINI_API_KEY,LOG_LEVEL=$LOG_LEVEL,RATE_LIMIT_WINDOW_MS=$RATE_LIMIT_WINDOW_MS,RATE_LIMIT_MAX_REQUESTS=$RATE_LIMIT_MAX_REQUESTS,CREATE_USER_LIMIT_MAX=$CREATE_USER_LIMIT_MAX,AI_SERVICE_LIMIT_MAX=$AI_SERVICE_LIMIT_MAX'
       ]
 
 options:
