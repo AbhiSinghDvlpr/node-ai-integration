@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const User = require('../models/User');
 const Role = require('../models/Role');
 const aiService = require('../services/aiService');
@@ -201,11 +202,12 @@ const getAllUsers = async (req, res, next) => {
       pageSize = 10,
       status,
       search,
+      role,
       sortBy = 'createdAt',
       sortOrder = 'desc'
     } = req.body;
 
-    logger.info(`Getting users - page: ${page}, pageSize: ${pageSize}, search: "${search}", status: ${status}`);
+    logger.info(`Getting users - page: ${page}, pageSize: ${pageSize}, search: "${search}", status: ${status}, role: ${role}`);
 
     // Calculate pagination
     const skip = (parseInt(page) - 1) * parseInt(pageSize);
@@ -234,6 +236,10 @@ const getAllUsers = async (req, res, next) => {
     
     if (status) {
       matchConditions.status = status;
+    }
+
+    if (role) {
+      matchConditions['roleInfo.name'] = role;
     }
 
     if (search) {

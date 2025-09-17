@@ -57,13 +57,21 @@ const validateUserUpdate = [
   body('role')
     .optional()
     .trim()
-    .isMongoId()
-    .withMessage('Role must be a valid role ID'),
+    .custom((value) => {
+      if (value === '' || (value.length >= 1 && value.length <= 50 && /^[A-Z\s_]+$/.test(value))) {
+        return true;
+      }
+      throw new Error('Role name must be empty or between 1 and 50 characters containing only uppercase letters, spaces, and underscores');
+    }),
 
   body('status')
     .optional()
-    .isIn(['ACTIVE', 'INACTIVE'])
-    .withMessage('Status must be either ACTIVE or INACTIVE'),
+    .custom((value) => {
+      if (value === '' || value === 'ACTIVE' || value === 'INACTIVE') {
+        return true;
+      }
+      throw new Error('Status must be either ACTIVE, INACTIVE, or empty');
+    }),
 
   body('bio')
     .optional()
@@ -93,8 +101,22 @@ const validateGetAllUsers = [
 
   body('status')
     .optional()
-    .isIn(['ACTIVE', 'INACTIVE'])
-    .withMessage('Status must be either ACTIVE or INACTIVE'),
+    .custom((value) => {
+      if (value === '' || value === 'ACTIVE' || value === 'INACTIVE') {
+        return true;
+      }
+      throw new Error('Status must be either ACTIVE, INACTIVE, or empty');
+    }),
+
+  body('role')
+    .optional()
+    .trim()
+    .custom((value) => {
+      if (value === '' || (value.length >= 1 && value.length <= 50 && /^[A-Z\s_]+$/.test(value))) {
+        return true;
+      }
+      throw new Error('Role name must be empty or between 1 and 50 characters containing only uppercase letters, spaces, and underscores');
+    }),
 
   body('search')
     .optional()

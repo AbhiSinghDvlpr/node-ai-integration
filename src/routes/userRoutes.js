@@ -38,7 +38,7 @@ router.route('/roles')
 router.route('/')
   .post(createUserLimiter, validateUserCreation, handleValidationErrors, createUser);
 
-router.post('/list', getAllUsers);
+router.post('/list', validateGetAllUsers, handleValidationErrors, getAllUsers);
 
 router.route('/:id')
   .get(validateUserId, handleValidationErrors, getUserById)
